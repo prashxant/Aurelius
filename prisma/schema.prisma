@@ -11,15 +11,7 @@ model User {
   id        String   @id @default(cuid())
   email     String   @unique
   name      String?
-  entries   Entry[]
+  password  String
+
 }
 
-model Entry {
-  id        String   @id @default(cuid())
-  title     String
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-}

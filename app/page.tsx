@@ -1,8 +1,11 @@
-import Image from "next/image";
 
 export default function Home() {
   return (
-
-<p>ff</p>
+<div>
+    <h1>Welcome to My App</h1>
+    <p>This is the home page of my application.</p>
+    <p>Feel free to explore!</p>
+    <button className="bg-sky-400 rounded-md p-2 text-amber-200">Getting Started </button>
+</div>
   );
 }
