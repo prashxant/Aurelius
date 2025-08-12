@@ -39,6 +39,7 @@ export function LandingPage() {
 
         {/* Features */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+
           <Card>
             <CardHeader>
               <BookOpen className="h-8 w-8 text-blue-600 mb-2" />
@@ -91,4 +92,4 @@ export function LandingPage() {
     </div>
   )
 }
-'
+
