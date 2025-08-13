@@ -36,6 +36,7 @@ const handler = NextAuth({
           // Return the user object to be saved in the session.
           // Note: Do not return the password hash.
           const { password, ...userWithoutPass } = user;
+
           return userWithoutPass as any;
         } else {
           // If the user is not found or password doesn't match, return null
@@ -50,6 +51,7 @@ const handler = NextAuth({
     session: async ({ session, token }) => {
       // Add the user ID to the session object
       if (token.sub) {
+       //@ts-expect-error: would be resolved later
         session.user.id = token.sub;
       }
       return session;
