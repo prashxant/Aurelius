@@ -9,7 +9,7 @@ const [form , setForm] = useState({
   email:"",
   password:""
 })
-function handleChange(e){
+function handleChange(e: React.ChangeEvent<HTMLInputElement>){
 
  const { name, value } = e.target
     setForm(prev => ({

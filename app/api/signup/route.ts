@@ -1,31 +1,31 @@
-import { prisma } from "@/lib/prisma";
+
 import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
 
-export async function POST(req:Request) {
 
-  interface SignupProps{
-    name:string,
-    email:string,
-    password:string
-  }
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const { name, email, password } = body;
 
-   try{ const body  = await req.json();
 
-    const {name , email , password }: SignupProps = body;
+    if (!name || !email || !password) {
+      return NextResponse.json({ error: "Missing fields" }, { status: 400 });
+    }
 
+ 
     const newUser = await prisma.user.create({
-      data:{
+      data: {
         name,
         email,
-        password //learn to hash password
-      }
-    })
+        password, // In real apps, hash the password before saving
+      },
+    });
 
-
-    return NextResponse.json({ message: "User created", user: newUser }, { status: 201 });
+    return NextResponse.json({ message: "User created", user: newUser });
   } catch (error) {
-    console.error("Signup error:", error);
-    return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
+    console.error(error);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
-  }
+}
