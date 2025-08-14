@@ -1,5 +1,7 @@
 "use client"
 import React, { useState } from 'react'
+import axios from 'axios';
+
 
 export default function Signup(){
 const [form , setForm] = useState({
@@ -18,8 +20,14 @@ function handleChange(e){
 }
 
 
-function handleSignup(){
-  alert(`name: ${form.name},email:${form.email},password:${form.password}`)
+async function handleSignup(){
+  try{
+      const res = await axios.post("../api/signup",form)
+      alert(`Signup successful: ${res.data.message}`)
+  }catch(error){
+    alert("signup faild")
+  }
+
 }
 
   return (
