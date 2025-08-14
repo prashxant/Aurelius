@@ -11,12 +11,13 @@ export default function Home() {
   )}
 
 export function MainHome (){
- const Session = useSession()
+
   return (
-    <div>
-      {Session.status == "authenticated" && <button onClick={()=>signOut()}>SignOut</button>}
-      {Session.status == "unauthenticated" && <button onClick={()=>signIn()}>signIn</button>}
-      {Session.status == "unauthenticated" && <button onClick={()=>signIn()}>signIn</button>}
+    <div className="flex flex-col items-center justify-center min-h-screen bg-amber-300">
+
+     <div onClick={()=>{alert("signup")}} className="cursor-pointer bg-sky-600 rounded-md py-2 px-4">
+       Click me
+     </div>
     </div>
   )
 }
