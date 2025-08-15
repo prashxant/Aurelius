@@ -16,11 +16,12 @@ const handler = NextAuth({
       name: "Login with Email",
       credentials: {
         email: { label: "Email", type: "email", placeholder: "user@example.com" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
+        age: {lable:"Age", type:"age"}
       },
       async authorize(credentials) {
         // If no credentials are provided, return null
-        if (!credentials) {
+        if (!credentials?.email || !credentials?.password) {
           return null;
         }
 
@@ -30,7 +31,7 @@ const handler = NextAuth({
             email: credentials.email
           }
         });
-        
+
         // If a user is found and the password is valid
         if (user && user.password && bcrypt.compareSync(credentials.password, user.password)) {
           // Return the user object to be saved in the session.

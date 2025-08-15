@@ -1,44 +1,66 @@
-"use client"
-import React, { useState } from 'react'
-import axios from 'axios';
+"use client";
+import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
+export default function SignupPage() {
+  const router = useRouter();
+  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [loading, setLoading] = useState(false);
 
-export default function Signup(){
-const [form , setForm] = useState({
-  name: "",
-  email:"",
-  password:""
-})
-function handleChange(e: React.ChangeEvent<HTMLInputElement>){
+  async function handleSignup(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
 
- const { name, value } = e.target
-    setForm(prev => ({
-      ...prev,
-      [name]: value
-    }))
+    const res = await fetch("/api/signup", {
+      method: "POST",
+      body: JSON.stringify(form),
+      headers: { "Content-Type": "application/json" }
+    });
 
-}
+    const data = await res.json();
 
+    if (res.ok) {
+      // Auto login after signup
+      await signIn("credentials", {
+        redirect: false,
+        email: form.email,
+        password: form.password
+      });
+      router.push("/dashboard");
+    } else {
+      alert(data.error || "Signup failed");
+    }
 
-async function handleSignup(){
-  try{
-      const res = await axios.post("../api/signup",form)
-      alert(`Signup successful: ${res.data.message}`)
-  }catch(error){
-    alert("signup faild")
+    setLoading(false);
   }
 
-}
-
   return (
-  <div className="flex  items-center justify-center min-h-screen">
-    <div className="flex flex-col gap-2 ">
-      <input name="name" placeholder='Name' value={form.name} onChange={handleChange} type="text" />
-      <input name="email" placeholder='Email' value={form.email} onChange={handleChange} type="text" />
-      <input name="password" placeholder='Password' value={form.password} onChange={handleChange} type="password" />
-      <button onClick={handleSignup}>Signup</button>
-
-    </div>
-  </div>
-  )
+    <form onSubmit={handleSignup} className="flex flex-col gap-4 max-w-sm mx-auto mt-10">
+      <input
+        type="text"
+        placeholder="Name"
+        value={form.name}
+        onChange={(e) => setForm({ ...form, name: e.target.value })}
+        className="border p-2"
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        value={form.email}
+        onChange={(e) => setForm({ ...form, email: e.target.value })}
+        className="border p-2"
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={form.password}
+        onChange={(e) => setForm({ ...form, password: e.target.value })}
+        className="border p-2"
+      />
+      <button type="submit" disabled={loading} className="bg-blue-500 text-white p-2">
+        {loading ? "Signing up..." : "Sign Up"}
+      </button>
+    </form>
+  );
 }
