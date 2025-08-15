@@ -30,7 +30,7 @@ const handler = NextAuth({
             email: credentials.email
           }
         });
-
+        
         // If a user is found and the password is valid
         if (user && user.password && bcrypt.compareSync(credentials.password, user.password)) {
           // Return the user object to be saved in the session.
