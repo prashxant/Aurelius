@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -12,31 +13,30 @@ export default function SignupPage() {
     e.preventDefault();
     setLoading(true);
 
-    const res = await fetch("/api/signup", {
-      method: "POST",
-      body: JSON.stringify(form),
-      headers: { "Content-Type": "application/json" }
-    });
+    try {
+      const res = await axios.post("/api/signup", form);
 
-    const data = await res.json();
-
-    if (res.ok) {
-      // Auto login after signup
-      await signIn("credentials", {
-        redirect: false,
-        email: form.email,
-        password: form.password
-      });
-      router.push("/dashboard");
-    } else {
-      alert(data.error || "Signup failed");
+      if (res.status === 200) {
+        // Auto login after signup
+        await signIn("credentials", {
+          redirect: false,
+          email: form.email,
+          password: form.password
+        });
+        router.push("/dashboard");
+      }
+    } catch (error: any) {
+      alert(error.response?.data?.error || "Signup failed");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   }
 
   return (
-    <form onSubmit={handleSignup} className="flex flex-col gap-4 max-w-sm mx-auto mt-10">
+    <form
+      onSubmit={handleSignup}
+      className="flex flex-col gap-4 max-w-sm mx-auto mt-10"
+    >
       <input
         type="text"
         placeholder="Name"
@@ -58,7 +58,11 @@ export default function SignupPage() {
         onChange={(e) => setForm({ ...form, password: e.target.value })}
         className="border p-2"
       />
-      <button type="submit" disabled={loading} className="bg-blue-500 text-white p-2">
+      <button
+        type="submit"
+        disabled={loading}
+        className="bg-blue-500 text-white p-2"
+      >
         {loading ? "Signing up..." : "Sign Up"}
       </button>
     </form>
