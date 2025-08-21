@@ -1,23 +1,14 @@
 'use client'
-import { SessionProvider, signIn, signOut, useSession } from "next-auth/react";
+
+import ToggleThem from "./components/theme-change-button"
+
 
 
 export default function Home() {
+  return (<div className="h-screen w-screen flex justify-center items-center">
 
-  return (
- <SessionProvider>
-  <MainHome/>
- </SessionProvider>
+  <ToggleThem/>
+
+  </div>
   )}
 
-export function MainHome (){
-
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-amber-300">
-
-     <div onClick={()=>{alert("signup")}} className="cursor-pointer bg-sky-600 rounded-md py-2 px-4">
-       Click me
-     </div>
-    </div>
-  )
-}
