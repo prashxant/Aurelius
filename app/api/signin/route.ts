@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 interface SignupTypes  {
 
-  email: string,
+  email: string
   password : string
 
 }
@@ -34,7 +34,7 @@ export async function POST(req: Request ){
 
   if(!user){
     NextResponse.json({
-      error:"login failed user doest ecixt"
+      error:"login failed user doest exist"
     },
     {status : 404})
   }
