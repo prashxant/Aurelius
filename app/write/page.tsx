@@ -1,20 +1,19 @@
+import React, { useRef } from 'react'
 
-export default function Write() {
+function Write() {
+
+
+
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-100">
-      {/* First Input */}
-      <input
-        type="text"
-        placeholder="First Input"
-        className="w-[80vw] h-[60vh] p-4 m-4 border-2 text-black border-gray-400 rounded-lg shadow-md"
-      />
+    <div className='h-screen w-screen flex flex-col bg-blue-200 justify-center items-center'>
 
-      {/* Second Input */}
-      <input
-        type="text"
-        placeholder="Second Input"
-        className="w-[80vw] p-4 m-4 border-2 text-black border-gray-400 rounded-lg shadow-md"
-      />
+      <input className='size-32 text-black bg-amber-200'type="text" />
+
+      <button className='text-2xl text-black'>submit</button>
+
     </div>
-  );
+  )
 }
+
+export default Write
